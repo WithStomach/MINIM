@@ -1,6 +1,6 @@
 export MODEL_NAME="/data2404/zhangchi/models/stable-diffusion-v1-4"  # 这里放入pretrain model, 可以是roentgen，也可以是stable diffusion官方的模型
 export DATASET_NAME="/data2404/zhangchi/dataset/HER2/her2_metadata.csv" # 这里是一个csv，中间有两列，分别是image路径和对应的text
-export CUDA_VISIBLE_DEVICES="1,2,3,5" # 训练使用的GPU
+export CUDA_VISIBLE_DEVICES="1,2,3,5,6" # 训练使用的GPU
 export WANDB_MODE="offline"
 
 accelerate launch --num_processes=4 --mixed_precision="fp16" train_text_to_image.py \

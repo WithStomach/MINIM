@@ -26,8 +26,8 @@ Follow these steps to install and run the project:
 1. Clone the repository and navigate to the project directory
 
     ```bash
-    git clone {repo_name}
-    cd {repo_name}
+    git clone https://github.com/WithStomach/MINIM.git
+    cd MINIM
     ```
 
 2. Install diffusers
