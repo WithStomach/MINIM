@@ -14,7 +14,7 @@ This project addresses the challenge of scarce high-quality medical imaging data
 ## Framework
 
 - **Diffusion Model**: We started with a pretrained diffusion model [stable-diffusion-v1-4](https://github.com/CompVis/stable-diffusion/blob/main/Stable_Diffusion_v1_Model_Card.md) and fine-tune it on our dataset containing multi-modal medical images.
-- **Reinforcement Learning**: After training , our model generates a variety of medical images across different modalities.These images are then presented to medical professionals who assess the congruence between the generated images and their corresponding prompts. Utilizing the scoring data from the physicians, we train a filtering model that learns to distinguish between high-quality and low-quality image generations.
+- **Reinforcement Learning**: After training, our model generates a variety of medical images across different modalities.These images are then presented to medical professionals who assess the congruence between the generated images and their corresponding prompts. Utilizing the scoring data from the physicians, we train a filtering model that learns to distinguish between high-quality and low-quality image generations.
 
 ![framework](./pic/framework.png)
 
