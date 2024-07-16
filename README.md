@@ -2,7 +2,9 @@
 
 ## Introduction
 
-This project addresses the challenge of scarce high-quality medical imaging datasets by exploring a domain adaptation strategy for generative models in the medical field. Given the complexity of medical images, the intricacies of medical language text, and the private nature of medical data, traditional vision-language models are not readily applicable. Our study introduces a latent diffusion-based generative model designed to produce synthetic multi-modal images, guided by report prompts. Rigorous objective and subjective assessments have been conducted to ensure the quality and potential utility of these synthetic images in ophthalmic diagnostics.
+Our study addresses the critical need for high-quality medical imaging datasets by introducing the Medical Image-text geNeratIve Model (MINIM), a novel generative model designed to produce synthetic images across various medical modalities and organs. The timeliness of this research is underscored by the growing demand for robust diagnostic tools in the medical field.
+
+We have developed MINIM to incorporate a diverse range of medical images paired with textual descriptions. This includes OCT for ophthalmology, Fundus for retinal analysis, chest X-ray for respiratory conditions, chest CT for detailed lung imaging, and brain MRI for neurological assessments. MINIM has been demonstrated to generate high-quality synthetic images based on text prompts for each organ and modality, showcasing its adaptability and potential for life-long learning. The successful integration of a new private breast MRI dataset further validates MINIM's capacity to improve with increased training data from new domains.
 
 ## Clinical Applications
 
@@ -17,6 +19,11 @@ This project addresses the challenge of scarce high-quality medical imaging data
 - **Reinforcement Learning**: After training, our model generates a variety of medical images across different modalities.These images are then presented to medical professionals who assess the congruence between the generated images and their corresponding prompts. Utilizing the scoring data from the physicians, we train a filtering model that learns to distinguish between high-quality and low-quality image generations.
 
 ![framework](./pic/framework.png)
+
+## Key Contributions
+- **MINIM Development**: Introduction of a novel generative model that is capable of producing synthetic images for multiple medical modalities and organs.
+- **Generalizability and Adaptability**: Demonstration of MINIM's ability to adapt and improve with new training data, highlighting its potential for continuous learning.
+- **Clinical Utility**: Evidence of MINIM's significant impact on the detection of critical genetic mutations, underscoring its clinical relevance and potential to transform diagnostic practices.
 
 ## Installation
 
