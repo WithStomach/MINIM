@@ -54,12 +54,12 @@ For more detailed installation instructions, refer to <https://huggingface.co/do
 
 ## Data Format
 
-The input data should be a single csv file containing two columns: `path` and `Text`, where `path` represents the path to an image and `Text` is the description to it.
+The input data should be a single csv file containing three columns: `path`, `Text` and `modality`, where `path` represents the path to an image and `Text` is the description to it.
 
 ```csv
-path, Text
-image/1.jpg, breast MRI with tumor
-image/2.jpg, chest CT without tumor
+path, Text, modality
+image/1.jpg, breast with tumor, MRI
+image/2.jpg, chest without tumor, CT
 ```
 
 ## Usage
