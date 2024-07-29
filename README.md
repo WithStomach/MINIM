@@ -13,6 +13,14 @@ We have developed MINIM to incorporate a diverse range of medical images paired 
 
 ![clinical](./pic/clinical.png)
 
+## Use Our Model
+
+Make sure your computer has at least one GPU that can be detected by CUDA, and run `run.exe`.
+
+![example1](./pic/example1.png)
+
+![example2](./pic/example2.png)
+
 ## Framework
 
 - **Diffusion Model**: We started with a pretrained diffusion model [stable-diffusion-v1-4](https://github.com/CompVis/stable-diffusion/blob/main/Stable_Diffusion_v1_Model_Card.md) and fine-tune it on our dataset containing multi-modal medical images.
