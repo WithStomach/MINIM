@@ -15,7 +15,7 @@ We have developed MINIM to incorporate a diverse range of medical images paired 
 
 ## Use Our Model
 
-Make sure your computer has at least one GPU that can be detected by CUDA, and run `run.exe`.
+Make sure your computer has at least one GPU that can be detected by CUDA, and run `run.exe`. You should input the modal and prompt to tell the model what kind of image you want. Besides, you should also input how many images you need and specify the output directory.
 
 ![example1](./pic/example1.png)
 
