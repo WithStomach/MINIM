@@ -3,7 +3,7 @@ export DATASET_NAME="/data2404/zhangchi/dataset/fundus/fundus_data.csv"
 export CUDA_VISIBLE_DEVICES="7"
 export WANDB_MODE="offline"
 
-accelerate launch --num_processes=1 --mixed_precision="fp16" train/train_model.py \
+accelerate launch --num_processes=1 --mixed_precision="fp16" ../train/train_model.py \
   --pretrained_model_name_or_path=$MODEL_NAME \
   --train_data_dir=$DATASET_NAME \
   --use_ema \
