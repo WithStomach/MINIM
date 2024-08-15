@@ -1,0 +1,61 @@
+path,Text,modal
+breast-mri/0.jpg,The breast MRI shows a tumor with a confirmed Her2 mutation in the tissue.,BreastMRI
+breast-mri/1.jpg,The MRI scan highlights a breast tumor characterized by Her2 genetic alterations.,BreastMRI
+breast-mri/2.jpg,The image demonstrates a breast lesion with evidence of Her2-positive mutation.,BreastMRI
+breast-mri/3.jpg,The MRI identifies a mass in the breast, indicating the presence of a Her2-mutated tumor.,BreastMRI
+breast-mri/4.jpg,The breast MRI reveals a tumor displaying Her2 overexpression within the tissue.,BreastMRI
+breast-mri/5.jpg,The breast MRI shows a tumor without any detectable Her2 mutation.,BreastMRI
+breast-mri/6.jpg,The MRI scan reveals a breast tumor that lacks Her2 genetic alterations.,BreastMRI
+breast-mri/7.jpg,The image demonstrates a breast lesion with no evidence of Her2-positive mutation.,BreastMRI
+breast-mri/8.jpg,The MRI identifies a mass in the breast, indicating the absence of Her2 mutation.,BreastMRI
+breast-mri/9.jpg,The breast MRI reveals a tumor that does not display Her2 overexpression.,BreastMRI
+brain-mri/0.jpg,The brain MRI shows a tumor with a MET mutation.,BrainMRI
+brain-mri/1.jpg,The scan reveals a brain mass with MET genetic alterations.,BrainMRI
+brain-mri/2.jpg,This MRI highlights a brain tumor with a confirmed MET mutation.,BrainMRI
+brain-mri/3.jpg,The image displays a brain tumor with evidence of MET mutation.,BrainMRI
+brain-mri/4.jpg,The MRI shows abnormal growth in the brain linked to a MET mutation.,BrainMRI
+brain-mri/5.jpg,The brain MRI shows a tumor without MET mutation.,BrainMRI
+brain-mri/6.jpg,The scan reveals a brain mass lacking MET genetic alterations.,BrainMRI
+brain-mri/7.jpg,This MRI highlights a brain tumor with no evidence of MET mutation.,BrainMRI
+brain-mri/8.jpg,The image displays a brain tumor that does not show MET mutation.,BrainMRI
+brain-mri/9.jpg,The MRI indicates a brain lesion without MET genetic changes.,BrainMRI
+fundus/0.jpg,The fundus image shows a normal retina.,Fundus
+fundus/1.jpg,The scan reveals a healthy optic nerve and retina.,Fundus
+fundus/2.jpg,The fundus photo displays no abnormalities.,Fundus
+fundus/3.jpg,The image highlights a clear and healthy retina.,Fundus
+fundus/4.jpg,The fundus view indicates no signs of disease.,Fundus
+fundus/5.jpg,The fundus image shows a normal retina.,Fundus
+fundus/6.jpg,The scan reveals a healthy optic nerve and retina.,Fundus
+fundus/7.jpg,The fundus photo displays no abnormalities.,Fundus
+fundus/8.jpg,The image highlights a clear and healthy retina.,Fundus
+fundus/9.jpg,The fundus view indicates no signs of disease.,Fundus
+chest-ct/0.jpg,The chest CT shows a tumor with an EGFR mutation.,ChestCT
+chest-ct/1.jpg,The scan reveals a mass with EGFR genetic alterations.,ChestCT
+chest-ct/2.jpg,This CT image highlights an abnormal growth with EGFR mutation.,ChestCT
+chest-ct/3.jpg,The chest CT identifies a lesion with confirmed EGFR changes.,ChestCT
+chest-ct/4.jpg,The image captures a tumor displaying EGFR mutation.,ChestCT
+chest-ct/5.jpg,The chest CT shows a tumor without EGFR mutation.,ChestCT
+chest-ct/6.jpg,The scan reveals a mass lacking EGFR genetic alterations.,ChestCT
+chest-ct/7.jpg,This CT image highlights a growth with no EGFR mutation.,ChestCT
+chest-ct/8.jpg,The chest CT identifies a lesion without EGFR changes.,ChestCT
+chest-ct/9.jpg,The image captures a tumor that does not display EGFR mutation.,ChestCT
+oct/0.jpg,The OCT image shows a detailed view of the retinal layers.,OCT
+oct/1.jpg,The scan reveals the structural integrity of the retina and underlying tissues.,OCT
+oct/2.jpg,This OCT image captures the macular and optic nerve head with high resolution.,OCT
+oct/3.jpg,The OCT scan displays the retinal architecture with no visible abnormalities.,OCT
+oct/4.jpg,The image provides a cross-sectional view of the retina, highlighting healthy tissue.,OCT
+oct/5.jpg,The OCT image shows a detailed view of the retinal layers.,OCT
+oct/6.jpg,The scan reveals the structural integrity of the retina and underlying tissues.,OCT
+oct/7.jpg,This OCT image captures the macular and optic nerve head with high resolution.,OCT
+oct/8.jpg,The OCT scan displays the retinal architecture with no visible abnormalities.,OCT
+oct/9.jpg,The image provides a cross-sectional view of the retina, highlighting healthy tissue.,OCT
+cxr/0.jpg,The CXR image shows a clear view of the chest cavity and lung fields.,CXR
+cxr/1.jpg,The scan reveals the structural details of the heart, lungs, and surrounding tissues.,CXR
+cxr/2.jpg,This CXR image captures the lung fields with no visible abnormalities.,CXR
+cxr/3.jpg,The chest X-ray displays normal lung and heart contours with no signs of pathology.,CXR
+cxr/4.jpg,The image provides a detailed view of the thoracic structures, indicating a healthy chest.,CXR
+cxr/5.jpg,The CXR image shows a clear view of the chest cavity and lung fields.,CXR
+cxr/6.jpg,The scan reveals the structural details of the heart, lungs, and surrounding tissues.,CXR
+cxr/7.jpg,This CXR image captures the lung fields with no visible abnormalities.,CXR
+cxr/8.jpg,The chest X-ray displays normal lung and heart contours with no signs of pathology.,CXR
+cxr/9.jpg,The image provides a detailed view of the thoracic structures, indicating a healthy chest.,CXR

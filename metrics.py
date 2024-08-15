@@ -151,7 +151,7 @@ def main():
         real_images.append(img)
 
     for path in fake_images_data["path"]:
-        img = Image.read(path)
+        img = Image.open(path)
         img = convert_to_rgb(img)
         fake_images.append(img)
 
