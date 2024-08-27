@@ -1,13 +1,12 @@
 import torch
 import torch.nn.functional as F
-from torchvision.models.inception import inception_v3
-from torchvision.transforms import functional as TF
-from torch.utils.data import DataLoader, Dataset
+import torchvision.models as models
+import torchvision.transforms as transforms
 import numpy as np
+import os
 
 from scipy.linalg import sqrtm
 from skimage.metrics import structural_similarity as ssim
-import pandas as pd
 from PIL import Image
 import argparse
 
@@ -22,7 +21,7 @@ def parse_args():
         help="A csv file contains all real images' path.",
     )
     parser.add_argument(
-        "--sync_images",
+        "--generated_images",
         type=str,
         default=None,
         required=True,
@@ -37,100 +36,71 @@ def parse_args():
     return args
 
 
-def convert_to_rgb(image):
-    # 如果图像是灰度图像，将其转换为RGB图像
-    if image.mode != "RGB":
-        image = image.convert("RGB")
-    return image
+def load_inception_model():
+    inception = models.inception_v3(pretrained=True)
+    inception.eval()
+    return inception
 
 
-class ImageDataset(Dataset):
-    def __init__(self, images):
-        self.images = images
-
-    def __len__(self):
-        return len(self.images)
-
-    def __getitem__(self, idx):
-        image = self.images[idx]
-        image = TF.resize(image, (299, 299))  # Inception模型输入大小
-        image = TF.to_tensor(image)
-        image = TF.normalize(image, [0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        return image
-
-
-def get_inception_activations(images, batch_size=32, dims=2048, device="cuda:0"):
-    model = inception_v3(pretrained=True, transform_input=False).eval()
-    dataloader = DataLoader(ImageDataset(images), batch_size=batch_size, shuffle=False)
-
-    activations = np.zeros((len(images), dims))
-
-    start_idx = 0
-    with torch.no_grad():
-        for batch in dataloader:
-            batch = batch.to(device)
-            pred = model(batch)[0] if type(model(batch)) == tuple else model(batch)
-            pred = F.adaptive_avg_pool2d(pred, (1, 1))
-            activations[start_idx : start_idx + pred.size(0)] = (
-                pred.cpu().numpy().reshape(pred.size(0), -1)
-            )
-            start_idx += pred.size(0)
-
-    return activations
+def read_images(folder_path, transform=None):
+    image_files = [
+        f for f in os.listdir(folder_path) if f.endswith((".png", ".jpg", ".jpeg"))
+    ]
+    images = []
+    for image_file in image_files:
+        image_path = os.path.join(folder_path, image_file)
+        image = Image.open(image_path).convert("RGB")
+        if transform == None:
+            input_tensor = transforms.ToTensor(image)
+        else:
+            input_tensor = transform(image)
+        images.append(input_tensor)
+    images = torch.stack(images)
+    return images
 
 
-def calculate_FID(real_images, fake_images, device="cuda:0"):
-    act1 = get_inception_activations(real_images, device=device)
-    act2 = get_inception_activations(fake_images, device=device)
+def calculate_FID(inception, real_images, generated_images):
+    real_features = inception(real_images)
+    generated_features = inception(generated_images)
 
-    mu1, sigma1 = np.mean(act1, axis=0), np.cov(act1, rowvar=False)
-    mu2, sigma2 = np.mean(act2, axis=0), np.cov(act2, rowvar=False)
+    mu_real = torch.mean(real_features, dim=0)
+    mu_generated = torch.mean(generated_features, dim=0)
 
-    ssdiff = np.sum((mu1 - mu2) ** 2.0)
-    covmean = sqrtm(sigma1.dot(sigma2))
+    cov_real = np.cov(real_features.detach().numpy().T)
+    cov_generated = np.cov(generated_features.detach().numpy().T)
 
-    if np.iscomplexobj(covmean):
-        covmean = covmean.real
-
-    fid = ssdiff + np.trace(sigma1 + sigma2 - 2.0 * covmean)
-    return fid
-
-
-def calculate_IS(images, splits=10, device="cuda:0"):
-    preds = get_inception_activations(images, dims=1000, device=device)
-
-    split_scores = []
-    for k in range(splits):
-        part = preds[
-            k * (preds.shape[0] // splits) : (k + 1) * (preds.shape[0] // splits), :
-        ]
-        py = np.mean(part, axis=0)
-        scores = []
-        for i in range(part.shape[0]):
-            pyx = part[i, :]
-            scores.append(np.exp(np.sum(pyx * np.log(pyx / py))))
-        split_scores.append(np.exp(np.mean(scores)))
-
-    return np.mean(split_scores), np.std(split_scores)
+    diff = mu_real - mu_generated
+    diff = diff.detach().numpy()
+    sqrt_cov = sqrtm(cov_real.dot(cov_generated))
+    fid = np.real(diff.dot(diff) + np.trace(cov_real + cov_generated - 2 * sqrt_cov))
+    return np.sqrt(fid)
 
 
-def calculate_SSIM(real_images, fake_images, device="cuda:0"):
-    real_dataset = ImageDataset(real_images)
-    fake_dataset = ImageDataset(fake_images)
+def calculate_IS(inception, images):
+    pred = inception(images)
+    pred = F.softmax(pred).cpu().numpy()
 
-    real_loader = DataLoader(real_dataset, batch_size=1, shuffle=False)
-    fake_loader = DataLoader(fake_dataset, batch_size=1, shuffle=False)
+    py = np.mean(pred, axis=0)
+    scores = []
+    for i in range(pred.shape[0]):
+        pyx = pred[i, :]
+        scores.append(np.log(pyx / py))
+    scores = np.exp(np.mean(scores))
 
+    return np.mean(scores)
+
+
+def calculate_SSIM(real_images, generated_images):
     ssim_values = []
 
-    for real, fake in zip(real_loader, fake_loader):
-        real = real.squeeze().numpy()
-        fake = fake.squeeze().numpy()
+    for real, generated in zip(real_images, generated_images):
+        real = real.cpu().numpy()
+        generated = generated.cpu().numpy()
 
-        if real.shape != fake.shape:
+        if real.shape != generated.shape:
             raise ValueError("Input images must have the same dimensions.")
 
-        ssim_value = ssim(real, fake, multichannel=True)
+        ssim_value = ssim(real, generated, data_range=1.0, channel_axis=0)
         ssim_values.append(ssim_value)
 
     return np.mean(ssim_values)
@@ -139,30 +109,18 @@ def calculate_SSIM(real_images, fake_images, device="cuda:0"):
 def main():
     args = parse_args()
     device = args.device
-    real_images_data = pd.read_csv(args.real_images)
-    fake_images_data = pd.read_csv(args.sync_images)
+    real_images = read_images(args.real_images)
+    generated_images = read_images(args.generated_images)
+    inception_model = load_inception_model()
 
-    real_images = []  # 真实图片列表
-    fake_images = []  # 生成图片列表
-
-    for path in real_images_data["path"]:
-        img = Image.open(path)
-        img = convert_to_rgb(img)
-        real_images.append(img)
-
-    for path in fake_images_data["path"]:
-        img = Image.open(path)
-        img = convert_to_rgb(img)
-        fake_images.append(img)
-
-    fid = calculate_FID(real_images, fake_images, device=device)
+    fid = calculate_FID(inception_model, real_images, generated_images)
     print(f"FID: {fid}")
 
-    ssim = calculate_SSIM(real_images, fake_images, device=device)
+    ssim = calculate_SSIM(real_images, generated_images)
     print(f"SSIM: {ssim}")
 
-    is_mean, is_std = calculate_IS(fake_images, device=device)
-    print(f"Inception Score: {is_mean} ± {is_std}")
+    inception_score = calculate_IS(inception_model, generated_images)
+    print(f"Inception Score: {inception_score}")
 
 
 if __name__ == "__main__":
