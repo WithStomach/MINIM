@@ -1,0 +1,5 @@
+image_path,rating,modality,expert_level,prompt
+data/oct/sample1.png,3,OCT,3,"OCT: healthy retinal layers"
+data/oct/sample1.png,3,OCT,2,"OCT: bad retinal layers"
+data/oct/sample1.png,3,OCT,1,"OCT: worse retinal layers"
+data/oct/sample1.png,3,OCT,3,"OCT: good retinal layers"

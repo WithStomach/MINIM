@@ -1,0 +1,121 @@
+# Model paths
+model_paths:
+  stable_diffusion: "runwayml/stable-diffusion-v1-5"
+  clip: "openai/clip-vit-large-patch14"
+
+# Device configuration
+device:
+  use_cuda: false
+  precision: "float16"
+
+# Training configuration
+training:
+  stage: 2  # 1 or 2
+  max_epochs: 100
+  batch_size: 32
+  stage1:
+    learning_rate: 0.0001 
+    train_selector: true   # Whether to train the selector in stage 1
+  stage2:
+    learning_rate: 0.0001
+    selector_threshold: 0.2  # Threshold for selector filtering
+  checkpoints:
+    save_dir: "checkpoints"
+    save_frequency: 10
+  load_latest_checkpoint: false  # Set to false to start training from scratch
+
+# Data configuration
+data:
+  ratings_file: "data/medical_ratings.csv"
+  num_workers: 4
+  rating_range: [1, 2, 3]
+  augmentation:
+    enable: true
+    rotation_range: 10
+    zoom_range: 0.1
+    contrast_range: [0.8, 1.2]
+
+# Rater configuration
+raters:
+  expert_weights: true
+  min_expert_level: 1
+  max_expert_level: 3
+
+# Synthetic system configuration
+synthetic_system:
+  enable_training: false  # Whether to update the synthetic model
+  num_inference_steps: 50
+  guidance_scale: 7.5
+  image_size: [512, 512]
+  max_attempts: 10
+  medical_settings:
+    modalities: ["OCT", "Chest CT", "Chest X-Ray", "Brain MRI", "Breast MRI", "Fundus"]
+    preprocessing:
+      normalize: true
+      window_center: 40
+      window_width: 400
+  training:
+    learning_rate: 1e-5
+    optimizer:
+      type: "adam"
+      weight_decay: 0.01
+    scheduler:
+      type: "cosine"
+      warmup_steps: 100
+
+# Policy model configuration
+policy_model:
+  architecture:
+    image_encoder:
+      type: "vit"
+      pretrained: true
+      output_dim: 768
+      patch_size: 16
+      num_layers: 12
+      num_heads: 12
+      mlp_dim: 3072
+      dropout: 0.1
+    text_encoder:
+      type: "clip"
+      output_dim: 768
+    fusion:
+      hidden_dims: [1536, 768, 384]
+      dropout: 0.1
+  training:
+    optimizer:
+      type: "adam"
+      weight_decay: 0.0001
+    scheduler:
+      type: "cosine"
+      warmup_steps: 100
+
+# Selector model configuration
+selector:
+  architecture:
+    type: "vit"
+    patch_size: 16
+    embed_dim: 768
+    num_layers: 6
+    num_heads: 12
+    mlp_dim: 2048
+    dropout: 0.1
+    head:
+      hidden_dims: [256, 64]
+      dropout: 0.1
+  training:
+    learning_rate: 0.0001
+    optimizer:
+      type: "adam"
+      weight_decay: 0.0001
+    scheduler:
+      type: "cosine"
+      warmup_steps: 100
+  quality_metrics:
+    snr_threshold: 1.0
+    contrast_threshold: 0.3
+    artifact_detection: true
+
+# Generation configuration
+generation:
+  num_candidates: 3    # Number of candidates generated per prompt
+  quality_threshold: 0.6  # Quality threshold for selector
